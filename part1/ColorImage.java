@@ -2,11 +2,12 @@ package part1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.ArrayList;
+import java.io.File;  
+import java.io.FileNotFoundException; 
+import java.util.Scanner;
 
 /*
  * reading the image from the ppm format
@@ -18,7 +19,7 @@ public class ColorImage {
     private int width;
     private int height;
     private int depth;
-    private Map<Integer, int[]> spreadMap = new HashMap<>(); // {[i, j]: [255, 255, 255]}
+    private int[][][] spreadMap;
 
 
 
@@ -32,12 +33,37 @@ public class ColorImage {
      * (to be described in the submitted document)
      */
 
-    public ColorImage(String filename) {
-        this.filename = filename;
+    /*
+     * Sources: https://www.w3schools.com/java/java_files_read.asp
+     */
+
+    public ColorImage(String filename) {  
+        try {
+            File myImage = new File("./queryImages/" + filename);
+            Scanner myReader = new Scanner(myImage);
+            int count = 1;
+            while (myReader.hasNextLine() && count > 0) {  // get rid of garbage data
+                myReader.nextLine();
+                count--;
+            }
+
+            int width = myReader.nextInt();
+            int height = myReader.nextInt();
+            spreadMap = new int[width][height][3];
+
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    spreadMap[i][j][0] = myReader.nextInt();
+                    spreadMap[i][j][1] = myReader.nextInt();
+                    spreadMap[i][j][2] = myReader.nextInt();
+                }
+            }
+
+          } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
     }
-
-
-
 
 
     /*
@@ -51,8 +77,8 @@ public class ColorImage {
         if (i < 0 || i >= this.getWidth() || j < 0 || j < this.getHeight()) {
             throw new IllegalArgumentException("Coord Not in Frame");
         }
-        List<Integer> pixelKey = Arrays.asList(i, j);
-        return spreadMap.get(pixelKey);
+
+        return spreadMap[i][j];
     }
 
     /*
@@ -61,7 +87,7 @@ public class ColorImage {
      */
 
     public void reduceColor(int d) {
-        
+        for (Integer)
     }
 
 
