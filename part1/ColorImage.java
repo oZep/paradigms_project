@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 /*
  * reading the image from the ppm format
- * storing the pixel values in a Hashmap
+ * storing the pixel values in a list matrix
  */
 
 public class ColorImage {
