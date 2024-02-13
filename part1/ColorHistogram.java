@@ -1,6 +1,7 @@
 package part1;
 
 public class ColorHistogram {
+    private int d;
     
 
     /*
@@ -8,8 +9,11 @@ public class ColorHistogram {
      */
     public ColorHistogram(int d) {
 
+        //// this just reduces the images in the file to that value ( wrote a function for this but it's simple ) tbh this is just
+        /// something like 
 
-        //// this just reduces the images in the file to that value
+        this.d = d; // which you use elsewhere
+
         
     }
 
