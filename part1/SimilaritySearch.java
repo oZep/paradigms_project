@@ -11,6 +11,13 @@ public class SimilaritySearch {
         String dataset = args[1];
 
         ColorImage pixelImage = new ColorImage(image);
+        pixelImage.reduceColor(3);                          // reduce to 3 bit
+        ColorHistogram hist = new ColorHistogram(dataset);
+        hist.setImage(pixelImage);                            // associating an image w the histogram
+
+
+
+
 
 
         /*
