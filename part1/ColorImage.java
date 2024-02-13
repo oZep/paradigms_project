@@ -1,25 +1,20 @@
 package part1;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 import java.io.File;  
 import java.io.FileNotFoundException; 
 import java.util.Scanner;
-
 /*
  * reading the image from the ppm format
  * storing the pixel values in a Hashmap
  */
 
 public class ColorImage {
-    private String filename;
     private int width;
     private int height;
     private int depth;
-    private int[][][] spreadMap;
+    private int[][][] spreadMatrix;
 
 
 
@@ -35,11 +30,24 @@ public class ColorImage {
 
     /*
      * Sources: https://www.w3schools.com/java/java_files_read.asp
+     * https://stackoverflow.com/questions/41783414/get-bits-per-pixel-of-a-bufferedimage 
      */
 
     public ColorImage(String filename) {  
+        // get depth
         try {
-            File myImage = new File("./queryImages/" + filename);
+            File file = new File("./queryImages/" + filename + ".jpg");
+            BufferedImage image = ImageIO.read(file);
+            java.awt.image.ColorModel colorModel = image.getColorModel();
+            this.depth = colorModel.getPixelSize();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace(); 
+        }
+
+        // get pixel info
+        try {
+            File myImage = new File("./queryImages/" + filename + ".ppm");
             Scanner myReader = new Scanner(myImage);
             int count = 1;
             while (myReader.hasNextLine() && count > 0) {  // get rid of garbage data
@@ -47,18 +55,18 @@ public class ColorImage {
                 count--;
             }
 
-            int width = myReader.nextInt();
-            int height = myReader.nextInt();
-            spreadMap = new int[width][height][3];
+            this.width = myReader.nextInt();
+            this.height = myReader.nextInt();
+            spreadMatrix = new int[width][height][3];
 
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    spreadMap[i][j][0] = myReader.nextInt();
-                    spreadMap[i][j][1] = myReader.nextInt();
-                    spreadMap[i][j][2] = myReader.nextInt();
+                    spreadMatrix[i][j][0] = myReader.nextInt();
+                    spreadMatrix[i][j][1] = myReader.nextInt();
+                    spreadMatrix[i][j][2] = myReader.nextInt();
                 }
             }
-
+            myReader.close();
           } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -77,8 +85,7 @@ public class ColorImage {
         if (i < 0 || i >= this.getWidth() || j < 0 || j < this.getHeight()) {
             throw new IllegalArgumentException("Coord Not in Frame");
         }
-
-        return spreadMap[i][j];
+        return spreadMatrix[i][j];
     }
 
     /*
@@ -87,7 +94,13 @@ public class ColorImage {
      */
 
     public void reduceColor(int d) {
-        for (Integer)
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                spreadMatrix[i][j][0] = spreadMatrix[i][j][0]>>(8-d);
+                spreadMatrix[i][j][1] = spreadMatrix[i][j][1]>>(8-d);
+                spreadMatrix[i][j][2] = spreadMatrix[i][j][2]>>(8-d);
+            }
+        }
     }
 
 
