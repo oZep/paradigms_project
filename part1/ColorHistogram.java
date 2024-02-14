@@ -1,7 +1,12 @@
 package part1;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class ColorHistogram {
     private int d;
+    private int[][][] histogramData;
+    private ColorImage associatedImage;
     
 
     /*
@@ -13,6 +18,8 @@ public class ColorHistogram {
         /// something like 
 
         this.d = d; // which you use elsewhere
+
+        this.histogramData = new int[3][3][3];
 
         
     }
@@ -27,6 +34,23 @@ public class ColorHistogram {
         // if you go to 25.jpg.txt the value [255,255,255] (white) is the first int
         // the second int is [255,255,254] etc
 
+        File file = new File("./imageDataset2_15_20/" + filename);
+        try{
+            Scanner scanner = new Scanner(file);
+        }
+        catch(FileNotFoundException){
+            System.err.println("Filenotfoundexception");
+        }
+            
+        scanner.nextInt();
+
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                for (int k = 0; k < 3; k++){
+                    histogramData[i][j][k] = scanner.nextInt();
+                }
+            }
+        }
     }
 
     /*
@@ -35,6 +59,7 @@ public class ColorHistogram {
 
     public void setImage(ColorImage image) {
 
+        associatedImage = image;
         // this is the image you want to compare all histograms with
 
     }
