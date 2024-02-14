@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class ColorHistogram {
     private int d;
-    private int[][][] histogramData;
+    private int[] histogramData;
     private ColorImage associatedImage;
     
 
@@ -18,8 +18,7 @@ public class ColorHistogram {
         /// something like 
 
         this.d = d; // which you use elsewhere
-
-        this.histogramData = new int[3][3][3];
+        int[] histogramData = new int[d];
 
         
     }
@@ -35,12 +34,9 @@ public class ColorHistogram {
         // the second int is [255,255,254] etc
 
         File file = new File("./" + filename);
-        try{
+
             Scanner scanner = new Scanner(file);
-        }
-        catch(FileNotFoundException){
-            System.err.println("Filenotfoundexception");
-        }
+
             
         scanner.nextInt();
 
