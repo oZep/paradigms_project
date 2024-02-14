@@ -1,12 +1,20 @@
 package part1;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public class ColorHistogram {
     private int d;
     private int[] histogramData;
     private ColorImage associatedImage;
+    private int imageResolution;
     
 
     /*
@@ -18,7 +26,7 @@ public class ColorHistogram {
         /// something like 
 
         this.d = d; // which you use elsewhere
-        int[] histogramData = new int[d];
+        this.histogramData[] = new int[d];
 
         
     }
@@ -27,26 +35,25 @@ public class ColorHistogram {
      * A constructor that construct a ColorHistogram from a text file
      */
 
-    public ColorHistogram(String filename) {
+    public ColorHistogram(String filename) throws FileNotFoundException{
 
         // this takes a file and computes all of the histogram values for each image
         // if you go to 25.jpg.txt the value [255,255,255] (white) is the first int
         // the second int is [255,255,254] etc
 
         File file = new File("./" + filename);
-
-            Scanner scanner = new Scanner(file);
-
+        Scanner scanner = new Scanner(file);
             
         scanner.nextInt();
 
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
-                for (int k = 0; k < 3; k++){
-                    histogramData[i][j][k] = scanner.nextInt();
-                }
-            }
+        for (int i = 0; i < d; i++){
+            histogramData[i] = scanner.nextInt();
         }
+
+        // save resolution for normalization
+        // source: https://stackoverflow.com/questions/672916/how-to-get-image-height-and-width-using-java
+        BufferedImage image = ImageIO.read(file);
+        imageResolution = image.getWidth() * image.getHeight();
     }
 
     /*
@@ -67,18 +74,24 @@ public class ColorHistogram {
 
         //  you gotta normalize the histogram in the getHistogram method
         //(divide every value by the number of pixels in the image)
+        double[] doubleData = new double[d];
+        for(int i = 0; i < d; i++){
+            doubleData[i] = histogramData[i];
+            doubleData[i] /= imageResolution;
+        }
 
-
-
-        double[] temp = {2.0,2.0};
-        return temp;
+        return doubleData;
     }
 
     /*
      * A save that saves the histogram into a text file (ColorHistogram)
      */
 
-    public void SaveState(String filename) {
+    public void SaveState(String filename) throws IOException{
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
+        for(int i = 0; i < d; i++){
+            writer.write()
+        }
     }
 }
