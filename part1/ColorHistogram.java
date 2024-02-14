@@ -34,7 +34,7 @@ public class ColorHistogram {
         // if you go to 25.jpg.txt the value [255,255,255] (white) is the first int
         // the second int is [255,255,254] etc
 
-        File file = new File("./imageDataset2_15_20/" + filename);
+        File file = new File("./" + filename);
         try{
             Scanner scanner = new Scanner(file);
         }
