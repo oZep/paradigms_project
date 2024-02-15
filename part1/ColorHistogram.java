@@ -26,7 +26,7 @@ public class ColorHistogram {
         /// something like 
 
         this.d = d; // which you use elsewhere
-        this.histogramData[] = new int[d];
+        this.histogramData = new int[d];
 
         
     }
@@ -35,7 +35,7 @@ public class ColorHistogram {
      * A constructor that construct a ColorHistogram from a text file
      */
 
-    public ColorHistogram(String filename) throws FileNotFoundException{
+    public ColorHistogram(String filename) throws FileNotFoundException, IOException{
 
         // this takes a file and computes all of the histogram values for each image
         // if you go to 25.jpg.txt the value [255,255,255] (white) is the first int
@@ -91,7 +91,7 @@ public class ColorHistogram {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
         for(int i = 0; i < d; i++){
-            writer.write()
+            writer.write(histogramData[i]);
         }
     }
 }
