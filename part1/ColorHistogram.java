@@ -93,5 +93,7 @@ public class ColorHistogram {
         for(int i = 0; i < d; i++){
             writer.write(histogramData[i]);
         }
+
+        writer.close();
     }
 }
