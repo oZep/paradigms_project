@@ -23,6 +23,14 @@ public class SimilaritySearch {
         File dataFolder = new File(args[1]);
         File[] fileList = dataFolder.listFiles();
         for (File i: fileList) {
+
+            if (!i.exists()) {
+                System.out.println(i.getAbsolutePath());
+                continue; 
+            }
+
+            System.out.printf("%s%n",i.getAbsolutePath());
+
             ColorHistogram hist = new ColorHistogram(i.getAbsolutePath()); // this is one histogram
             hist.setImage(pixelImage);                                     // this is second histogram
 
@@ -44,13 +52,16 @@ public class SimilaritySearch {
             System.out.printf("%d. %s%n", i, sorted.poll().toString());
         }
 
-
+        
         // TEST 
+        
+        /*
         ColorImage test = new ColorImage("/Users/joeyissa/Downloads/paradigms_project/part1/queryImages/q00.jpg");
         test.reduceColor(3);
         ColorHistogram test2 = new ColorHistogram(3);
         test2.setImage(test);
         double[] histogram = test2.getHistogram();
+        */
 
 
 

@@ -23,8 +23,6 @@ public class ColorHistogram {
      */
     public ColorHistogram(int d) {
 
-        //// this just reduces the images in the file to that value ( wrote a function for this but it's simple ) tbh this is just
-        /// something like 
 
         this.d = d; // which you use elsewhere
 
@@ -41,13 +39,16 @@ public class ColorHistogram {
         // if you go to 25.jpg.txt the value [255,255,255] (white) is the first int
         // the second int is [255,255,254] etc
 
-        File file = new File("./" + filename);
+        File file = new File(filename); 
         Scanner scanner = new Scanner(file);
-            
-        scanner.nextInt();
+    
+
+        if(scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
 
         for (int i = 0; i < d; i++){
-            histogramData[i] = scanner.nextInt();
+            this.histogramData[i] = scanner.nextInt();
         }
 
         
@@ -57,7 +58,7 @@ public class ColorHistogram {
         // save resolution for normalization
         // source: https://stackoverflow.com/questions/672916/how-to-get-image-height-and-width-using-java
         BufferedImage image = ImageIO.read(file);
-        imageResolution = image.getWidth() * image.getHeight();
+        this.imageResolution = image.getWidth() * image.getHeight();
     }
 
     /*
@@ -67,7 +68,7 @@ public class ColorHistogram {
     public void setImage(ColorImage image) {
         this.associatedImage = image;
         if (this.histogramData == null) {
-            this.constructHistogram();
+            this.constructHistogram();              /*****/
         }
 
         // this is the image you want to compare all histograms with
