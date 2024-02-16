@@ -15,6 +15,7 @@ public class ColorHistogram {
     private int[] histogramData;
     private ColorImage associatedImage;
     private int imageResolution;
+    private int array_size;
     
 
     /*
@@ -26,9 +27,8 @@ public class ColorHistogram {
         /// something like 
 
         this.d = d; // which you use elsewhere
-        this.histogramData = new int[d];
 
-        
+        this.array_size = (int)Math.pow(2, d*3);
     }
 
     /*
@@ -50,6 +50,10 @@ public class ColorHistogram {
             histogramData[i] = scanner.nextInt();
         }
 
+        
+        scanner.close();
+        
+
         // save resolution for normalization
         // source: https://stackoverflow.com/questions/672916/how-to-get-image-height-and-width-using-java
         BufferedImage image = ImageIO.read(file);
@@ -61,10 +65,27 @@ public class ColorHistogram {
      */
 
     public void setImage(ColorImage image) {
+        this.associatedImage = image;
+        if (this.histogramData == null) {
+            this.constructHistogram();
+        }
 
-        associatedImage = image;
         // this is the image you want to compare all histograms with
 
+    }
+
+    public void constructHistogram() {
+        this.histogramData = new int[array_size];
+        for (int i= 0; i < associatedImage.getWidth(); i++){
+            for (int j = 0; j < associatedImage.getHeight(); j++){
+                int index = this.decimalConvertl(associatedImage.getPixel(i,j));
+                histogramData[index] += 1;
+            }
+        }
+    }
+
+    private int decimalConvertl(int[] arr) {
+        return (arr[0] << 2 * d) + (arr[1] << d) + arr[2];
     }
 
     /*
@@ -72,7 +93,7 @@ public class ColorHistogram {
      */
     public double[] getHistogram() {
 
-        //  you gotta normalize the histogram in the getHistogram method
+        // you gotta normalize the histogram in the getHistogram method
         //(divide every value by the number of pixels in the image)
         double[] doubleData = new double[d];
         for(int i = 0; i < d; i++){
@@ -87,7 +108,7 @@ public class ColorHistogram {
      * A save that saves the histogram into a text file (ColorHistogram)
      */
 
-    public void SaveState(String filename) throws IOException{
+    public void save(String filename) throws IOException{
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
         for(int i = 0; i < d; i++){
@@ -96,4 +117,18 @@ public class ColorHistogram {
 
         writer.close();
     }
+
+    public double compare(ColorHistogram hist) {
+
+        // compare these two
+        double sum = 0;
+
+        for (int i = 0; i < this.getHistogram().length; i++) {
+            sum += Math.min(this.getHistogram()[i], this.histogramData[i]);
+        }
+
+        return sum;
+    }
+
+
 }

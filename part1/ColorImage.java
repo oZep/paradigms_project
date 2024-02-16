@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.File;  
 import java.io.FileNotFoundException; 
-import java.util.Scanner;
 /*
  * reading the image from the ppm format
  * storing the pixel values in a list matrix
@@ -33,47 +32,40 @@ public class ColorImage {
      * https://stackoverflow.com/questions/41783414/get-bits-per-pixel-of-a-bufferedimage 
      */
 
-    public ColorImage(String filename) {  
-        // get depth
+    /**
+     * @param filename
+     * @throws IOException 
+     */
+    public ColorImage(String filename) throws IOException {  
         try {
-            File file = new File("./queryImages/" + filename + ".jpg");
-            BufferedImage image = ImageIO.read(file);
-            java.awt.image.ColorModel colorModel = image.getColorModel();
-            this.depth = colorModel.getPixelSize();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace(); 
-        }
-
-        // get pixel info
-        try {
-            File myImage = new File("./queryImages/" + filename + ".ppm");
-            Scanner myReader = new Scanner(myImage);
-            int count = 1;
-            while (myReader.hasNextLine() && count > 0) {  // get rid of garbage data
-                myReader.nextLine();
-                count--;
-            }
-
-            this.width = myReader.nextInt();
-            this.height = myReader.nextInt();
+            File file = new File(filename);
+            BufferedImage myImage = ImageIO.read(file);
+            this.width = myImage.getWidth();
+            this.height = myImage.getHeight();
             spreadMatrix = new int[width][height][3];
 
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    spreadMatrix[i][j][0] = myReader.nextInt();
-                    spreadMatrix[i][j][1] = myReader.nextInt();
-                    spreadMatrix[i][j][2] = myReader.nextInt();
+            for (int i = 0; i < this.width; i++) { 
+                for (int j = 0; j < this.height; j++) {
+                    int pix = myImage.getRGB(i, j);
+                    //System.out.print(Integer.toString(pix & 0xff) + "\n");
+                    // Source: https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
+                    spreadMatrix[i][j][0] = (pix & 0xff0000) >> 16;
+                    spreadMatrix[i][j][1] = (pix & 0xff00) >> 8;
+                    spreadMatrix[i][j][2] = pix & 0xff; 
                 }
+
+
+                // find depth
+                // Source: https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
+                this.depth = myImage.getColorModel().getPixelSize();
+
+
             }
-            myReader.close();
           } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
     }
-
-
     /*
      * method that returns the 3-channel value of pixel at column i row j in the
      * form of a 3-element array
@@ -82,7 +74,7 @@ public class ColorImage {
      */
     
     public int[] getPixel(int i, int j) {
-        if (i < 0 || i >= this.getWidth() || j < 0 || j < this.getHeight()) {
+        if (i < 0 || i >= this.getWidth() || j < 0 || j >= this.getHeight()) {
             throw new IllegalArgumentException("Coord Not in Frame");
         }
         return spreadMatrix[i][j];
@@ -94,8 +86,8 @@ public class ColorImage {
      */
 
     public void reduceColor(int d) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < this.width; i++) { 
+            for (int j = 0; j < this.height; j++) {
                 spreadMatrix[i][j][0] = spreadMatrix[i][j][0]>>(8-d);
                 spreadMatrix[i][j][1] = spreadMatrix[i][j][1]>>(8-d);
                 spreadMatrix[i][j][2] = spreadMatrix[i][j][2]>>(8-d);
