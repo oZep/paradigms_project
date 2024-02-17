@@ -19,7 +19,7 @@ public class SimilaritySearch {
 
         String image = args[0];
 
-        PriorityQueue<Fucked> sorted = new PriorityQueue<>();
+        PriorityQueue<Mask> sorted = new PriorityQueue<>();
 
         ColorImage pixelImage = new ColorImage(image);
         pixelImage.reduceColor(3);      // reduce to 3 bit
@@ -41,13 +41,13 @@ public class SimilaritySearch {
             
                 // compare histograms            
                 // add returning value in dictionary, find highest # return top 5
-                Fucked fuck = new Fucked(i.getName(), fileHist.compare(queryHistogram));
+                Mask item = new Mask(i.getName(), fileHist.compare(queryHistogram));
 
                 if (sorted.size() < 5) {
-                    sorted.add(fuck);
-                } else if ((sorted.peek()).compareTo(fuck)  == -1 ) {
+                    sorted.add(item);
+                } else if ((sorted.peek()).compareTo(item)  == -1 ) {
                     sorted.poll();
-                    sorted.add(fuck);
+                    sorted.add(item);
                 } 
             }          
         }
@@ -55,7 +55,7 @@ public class SimilaritySearch {
         // print out the top 5
 
         for ( int i = sorted.size(); i > 0; i --) {
-            Fucked val = sorted.poll();
+            Mask val = sorted.poll();
             System.out.printf("%d. %s%n%n", i, val.toString());
         }
 
