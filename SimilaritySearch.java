@@ -13,6 +13,10 @@ public class SimilaritySearch {
             System.err.println("java SimilaritySearch <image> <dataset>");
         }
 
+        /*
+         * TO RUN: java SimilaritySearch /Users/joeyissa/Downloads/paradigms_project/part1/queryImages/q00.jpg /Users/joeyissa/Downloads/paradigms_project/part1/imageDataset2_15_20
+         */
+
         String image = args[0];
 
         PriorityQueue<Fucked> sorted = new PriorityQueue<>();
