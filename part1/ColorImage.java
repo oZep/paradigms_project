@@ -44,10 +44,14 @@ public class ColorImage {
             this.height = myImage.getHeight();
             spreadMatrix = new int[width][height][3];
 
+            /*
+             * WE ARE CHOOSE TO STORE IN A TRIPLE INT ARRAY becuase it is easy to access and less confusing to retireve data
+             * ONE OF THE MAIN GOALS OF THE ADT is to allow us to easily retreive and edit values using a set index
+             */
+
             for (int i = 0; i < this.width; i++) { 
                 for (int j = 0; j < this.height; j++) {
                     int pix = myImage.getRGB(i, j);
-                    //System.out.print(Integer.toString(pix & 0xff) + "\n");
                     // Source: https://stackoverflow.com/questions/25761438/understanding-bufferedimage-getrgb-output-values
                     spreadMatrix[i][j][0] = (pix & 0xff0000) >> 16;
                     spreadMatrix[i][j][1] = (pix & 0xff00) >> 8;

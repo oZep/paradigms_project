@@ -64,6 +64,9 @@ public class ColorHistogram {
 
     }
 
+    /*
+     * 
+     */
     public void constructHistogram() {
         this.histogramData = new int[array_size];
         for (int i= 0; i < associatedImage.getWidth(); i++){
@@ -80,6 +83,9 @@ public class ColorHistogram {
 
     }
 
+    /*
+     * index of the histogram bin corresponding to color [R',G',B'] 
+     */
     private int decimalConvertl(int[] arr) {
         return (arr[0] << 2 * d) + (arr[1] << d) + arr[2];
     }
@@ -113,6 +119,9 @@ public class ColorHistogram {
         writer.close();
     }
 
+    /*
+     * A compare method that returns the intersection between two histograms
+     */
     public double compare(ColorHistogram hist) {
         // compare these two
         double sum = 0.0;

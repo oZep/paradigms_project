@@ -14,18 +14,17 @@ public class SimilaritySearch {
         }
 
         /*
-         * TO RUN: java SimilaritySearch q00.jpg imageDataset2_15_20
+         * TO RUN: java SimilaritySearch /Users/joeyissa/Downloads/paradigms_project/part1/queryImages/q00.jpg /Users/joeyissa/Downloads/paradigms_project/part1/imageDataset2_15_20
          */
 
-        String image = "../paradigms_project/part1/queryImages/"+ args[0];
+        String image = args[0];
 
         PriorityQueue<Mask> sorted = new PriorityQueue<>();
 
         ColorImage pixelImage = new ColorImage(image);
         pixelImage.reduceColor(3);      // reduce to 3 bit
         
-        String filenamed = "../paradigms_project/part1/" + args[1];
-        File dataFolder = new File(filenamed);
+        File dataFolder = new File(args[1]);
         File[] fileList = dataFolder.listFiles();
         ColorHistogram queryHistogram = new ColorHistogram(3);
         queryHistogram.setImage(pixelImage); // this is second histogram
