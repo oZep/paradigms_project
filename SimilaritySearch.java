@@ -35,9 +35,6 @@ public class SimilaritySearch {
 
                 ColorHistogram fileHist = new ColorHistogram(i.getAbsolutePath()); // this is one histogram
             
-
-
-
                 // compare histograms            
                 // add returning value in dictionary, find highest # return top 5
                 Fucked fuck = new Fucked(i.getName(), fileHist.compare(queryHistogram));
