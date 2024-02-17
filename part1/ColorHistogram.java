@@ -7,14 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-
 public class ColorHistogram {
     private int d;
     private int[] histogramData;
     private ColorImage associatedImage;
-    private int imageResolution;
+    private double imageResolution;
     private int array_size;
     
 
@@ -22,10 +19,7 @@ public class ColorHistogram {
      * A constructor that construct a ColorHistogram instance for a d-bit image
      */
     public ColorHistogram(int d) {
-
-
-        this.d = d; // which you use elsewhere
-
+        this.d = d; 
         this.array_size = (int)Math.pow(2, d*3);
     }
 
@@ -41,24 +35,14 @@ public class ColorHistogram {
 
         File file = new File(filename); 
         Scanner scanner = new Scanner(file);
-    
 
-        if(scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
+        this.array_size = scanner.nextInt();
+        this.histogramData = new int[this.array_size];
 
-        for (int i = 0; i < d; i++){
+        for (int i = 0; i < this.array_size; i++){
             this.histogramData[i] = scanner.nextInt();
         }
-
-        
         scanner.close();
-        
-
-        // save resolution for normalization
-        // source: https://stackoverflow.com/questions/672916/how-to-get-image-height-and-width-using-java
-        BufferedImage image = ImageIO.read(file);
-        this.imageResolution = image.getWidth() * image.getHeight();
     }
 
     /*
@@ -68,7 +52,7 @@ public class ColorHistogram {
     public void setImage(ColorImage image) {
         this.associatedImage = image;
         if (this.histogramData == null) {
-            this.constructHistogram();              /*****/
+            this.constructHistogram();   
         }
 
         // this is the image you want to compare all histograms with
@@ -80,9 +64,10 @@ public class ColorHistogram {
         for (int i= 0; i < associatedImage.getWidth(); i++){
             for (int j = 0; j < associatedImage.getHeight(); j++){
                 int index = this.decimalConvertl(associatedImage.getPixel(i,j));
-                histogramData[index] += 1;
+                this.histogramData[index] += 1;
             }
         }
+
     }
 
     private int decimalConvertl(int[] arr) {
@@ -93,15 +78,16 @@ public class ColorHistogram {
      * A getHistogram method that returns the normalized histogram of the image
      */
     public double[] getHistogram() {
-
+        // calculate resolution
+        for (int i = 0; i < this.array_size; i++){
+            this.imageResolution += this.histogramData[i];
+        }
         // you gotta normalize the histogram in the getHistogram method
         //(divide every value by the number of pixels in the image)
-        double[] doubleData = new double[d];
-        for(int i = 0; i < d; i++){
-            doubleData[i] = histogramData[i];
-            doubleData[i] /= imageResolution;
+        double[] doubleData = new double[this.array_size];
+        for(int i = 0; i < this.array_size; i++){
+            doubleData[i] = histogramData[i] / imageResolution;
         }
-
         return doubleData;
     }
 
@@ -112,7 +98,7 @@ public class ColorHistogram {
     public void save(String filename) throws IOException{
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
-        for(int i = 0; i < d; i++){
+        for(int i = 0; i < this.array_size; i++){
             writer.write(histogramData[i]);
         }
 
@@ -120,12 +106,13 @@ public class ColorHistogram {
     }
 
     public double compare(ColorHistogram hist) {
-
         // compare these two
-        double sum = 0;
+        double sum = 0.0;
+        double[] temp = this.getHistogram();
+        double[] temp2 = hist.getHistogram();
 
-        for (int i = 0; i < this.getHistogram().length; i++) {
-            sum += Math.min(this.getHistogram()[i], this.histogramData[i]);
+        for (int i = 0; i < this.array_size; i++) {
+            sum += Math.min(temp[i], temp2[i]);
         }
 
         return sum;

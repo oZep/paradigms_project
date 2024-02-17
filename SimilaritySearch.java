@@ -22,51 +22,45 @@ public class SimilaritySearch {
         
         File dataFolder = new File(args[1]);
         File[] fileList = dataFolder.listFiles();
+        ColorHistogram queryHistogram = new ColorHistogram(3);
+        queryHistogram.setImage(pixelImage); // this is second histogram
+
         for (File i: fileList) {
+            if (i.getName().charAt(i.getName().length()-1) == 't') { // if it's a jpg.txt file
 
-            if (!i.exists()) {
-                System.out.println(i.getAbsolutePath());
-                continue; 
-            }
+                if (!i.exists()) {
+                    System.out.println(i.getAbsolutePath());
+                    continue; 
+                }
 
-            System.out.printf("%s%n",i.getAbsolutePath());
-
-            ColorHistogram hist = new ColorHistogram(i.getAbsolutePath()); // this is one histogram
-            hist.setImage(pixelImage);                                     // this is second histogram
-
-            // compare histograms            
-            // add returning value in dictionary, find highest # return top 5
-            Fucked fuck = new Fucked(i.getName(), hist.compare(hist));
-            if (sorted.size() < 5) {
-                sorted.add(fuck);
-            } else if ((sorted.peek()).compareTo(fuck)  == -1 ) {
-                sorted.poll();
-                sorted.add(fuck);
-            } 
+                ColorHistogram fileHist = new ColorHistogram(i.getAbsolutePath()); // this is one histogram
             
+
+
+
+                // compare histograms            
+                // add returning value in dictionary, find highest # return top 5
+                Fucked fuck = new Fucked(i.getName(), fileHist.compare(queryHistogram));
+                sorted.add(fuck);
+
+                /*if (sorted.size() < 5) {
+                    sorted.add(fuck);
+                } else if ((sorted.peek()).compareTo(fuck)  == -1 ) {
+                    sorted.poll();
+                    sorted.add(fuck);
+                } */
+            }          
         }
 
         // print out the top 5
 
         for ( int i = sorted.size(); i > 0; i --) {
-            System.out.printf("%d. %s%n", i, sorted.poll().toString());
+            Fucked val = sorted.poll();
+            System.out.println(val.getValue());
+            System.out.printf("%d. %s%n%n", i, val.toString());
         }
 
         
-        // TEST 
-        
-        /*
-        ColorImage test = new ColorImage("/Users/joeyissa/Downloads/paradigms_project/part1/queryImages/q00.jpg");
-        test.reduceColor(3);
-        ColorHistogram test2 = new ColorHistogram(3);
-        test2.setImage(test);
-        double[] histogram = test2.getHistogram();
-        */
-
-
-
-
-
         /*
          * you can assume that the histograms of the image dataset have been pre-computed 
          * however, you must compute the histogram of the query image
