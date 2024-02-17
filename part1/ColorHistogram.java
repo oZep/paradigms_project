@@ -57,29 +57,21 @@ public class ColorHistogram {
     public void setImage(ColorImage image) {
         this.associatedImage = image;
         if (this.histogramData == null) {
-            this.constructHistogram();   
+            this.histogramData = new int[array_size];
+            for (int i= 0; i < associatedImage.getWidth(); i++){
+                for (int j = 0; j < associatedImage.getHeight(); j++){
+                    int index = this.decimalConvertl(associatedImage.getPixel(i,j));
+                    this.histogramData[index] += 1;
+                }
+            }
+    
+            // calculate resolution
+            for (int i = 0; i < this.array_size; i++){
+                this.imageResolution += this.histogramData[i];
+            } 
         }
 
         // this is the image you want to compare all histograms with
-
-    }
-
-    /*
-     * 
-     */
-    public void constructHistogram() {
-        this.histogramData = new int[array_size];
-        for (int i= 0; i < associatedImage.getWidth(); i++){
-            for (int j = 0; j < associatedImage.getHeight(); j++){
-                int index = this.decimalConvertl(associatedImage.getPixel(i,j));
-                this.histogramData[index] += 1;
-            }
-        }
-
-        // calculate resolution
-        for (int i = 0; i < this.array_size; i++){
-            this.imageResolution += this.histogramData[i];
-        }
 
     }
 
