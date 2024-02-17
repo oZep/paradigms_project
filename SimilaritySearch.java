@@ -57,7 +57,7 @@ public class SimilaritySearch {
         for ( int i = sorted.size(); i > 0; i --) {
             Fucked val = sorted.poll();
             System.out.println(val.getValue());
-            System.out.printf("%d. %s%n%n", i, val.toString());
+            //System.out.printf("%d. %s%n%n", i, val.toString());
         }
 
         

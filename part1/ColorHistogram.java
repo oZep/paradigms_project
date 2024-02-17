@@ -82,6 +82,7 @@ public class ColorHistogram {
         for (int i = 0; i < this.array_size; i++){
             this.imageResolution += this.histogramData[i];
         }
+        
         // you gotta normalize the histogram in the getHistogram method
         //(divide every value by the number of pixels in the image)
         double[] doubleData = new double[this.array_size];
@@ -110,6 +111,7 @@ public class ColorHistogram {
         double sum = 0.0;
         double[] temp = this.getHistogram();
         double[] temp2 = hist.getHistogram();
+
 
         for (int i = 0; i < this.array_size; i++) {
             sum += Math.min(temp[i], temp2[i]);
