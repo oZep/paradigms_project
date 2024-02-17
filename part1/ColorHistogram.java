@@ -11,7 +11,7 @@ public class ColorHistogram {
     private int d;
     private int[] histogramData;
     private ColorImage associatedImage;
-    private double imageResolution;
+    private int imageResolution;
     private int array_size;
     
 
@@ -43,6 +43,11 @@ public class ColorHistogram {
             this.histogramData[i] = scanner.nextInt();
         }
         scanner.close();
+
+        // calculate resolution
+        for (int i = 0; i < this.array_size; i++){
+            this.imageResolution += this.histogramData[i];
+        }
     }
 
     /*
@@ -68,6 +73,11 @@ public class ColorHistogram {
             }
         }
 
+        // calculate resolution
+        for (int i = 0; i < this.array_size; i++){
+            this.imageResolution += this.histogramData[i];
+        }
+
     }
 
     private int decimalConvertl(int[] arr) {
@@ -78,16 +88,13 @@ public class ColorHistogram {
      * A getHistogram method that returns the normalized histogram of the image
      */
     public double[] getHistogram() {
-        // calculate resolution
-        for (int i = 0; i < this.array_size; i++){
-            this.imageResolution += this.histogramData[i];
-        }
         
         // you gotta normalize the histogram in the getHistogram method
         //(divide every value by the number of pixels in the image)
+        double imageResolutionD = (double) imageResolution;
         double[] doubleData = new double[this.array_size];
         for(int i = 0; i < this.array_size; i++){
-            doubleData[i] = histogramData[i] / imageResolution;
+            doubleData[i] = histogramData[i] / imageResolutionD;
         }
         return doubleData;
     }

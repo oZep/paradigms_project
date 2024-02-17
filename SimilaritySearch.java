@@ -41,14 +41,13 @@ public class SimilaritySearch {
                 // compare histograms            
                 // add returning value in dictionary, find highest # return top 5
                 Fucked fuck = new Fucked(i.getName(), fileHist.compare(queryHistogram));
-                sorted.add(fuck);
 
-                /*if (sorted.size() < 5) {
+                if (sorted.size() < 5) {
                     sorted.add(fuck);
                 } else if ((sorted.peek()).compareTo(fuck)  == -1 ) {
                     sorted.poll();
                     sorted.add(fuck);
-                } */
+                } 
             }          
         }
 
@@ -56,8 +55,7 @@ public class SimilaritySearch {
 
         for ( int i = sorted.size(); i > 0; i --) {
             Fucked val = sorted.poll();
-            System.out.println(val.getValue());
-            //System.out.printf("%d. %s%n%n", i, val.toString());
+            System.out.printf("%d. %s%n%n", i, val.toString());
         }
 
         
