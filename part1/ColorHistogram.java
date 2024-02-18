@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ColorHistogram {
+public class ColorHistogram extends SimilaritySearch {
     private int d;
     private int[] histogramData;
     private ColorImage associatedImage;

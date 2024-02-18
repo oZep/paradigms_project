@@ -1,4 +1,6 @@
-public class Mask implements Comparable<Mask>{
+import part1.ColorImage;
+
+public class Mask extends SimilaritySearch implements Comparable<Mask>{
     private String h;
     private double p;
 
