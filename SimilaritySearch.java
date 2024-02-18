@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 import part1.ColorImage;
 import part1.ColorHistogram;
 
-public class SimilaritySearch {
+public class SimilaritySearch extends ColorImage {
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
         if (args.length > 2 || args.length < 1) {
